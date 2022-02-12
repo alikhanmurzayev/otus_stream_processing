@@ -1,0 +1,28 @@
+apiVersion: getambassador.io/v2
+kind: Filter
+metadata:
+  name: auth
+spec:
+  External:
+    auth_service: "auth.default"
+    path_prefix: "/is-token-valid"
+    allowed_authorization_headers:
+      - "x-user-id"
+      - "x-auth-token"
+---
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: auth-check
+spec:
+  rules:
+    - host: "*"
+      path: "/auth*" # Разрешаем доступ к /auth всем запросам
+      filters: null
+    - host: "*"
+      path: "/user/register" # Разрешаем доступ к регистрации без аутентификации
+      filters: null
+    - host: "*"
+      path: "*"
+      filters:
+        - name: "auth"  # Применяем auth-service фильтр к ресурсам

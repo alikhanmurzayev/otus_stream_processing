@@ -1,0 +1,34 @@
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: wildcard
+spec:
+  hostname: "*"
+  acmeProvider:
+    authority: none # Выключаем использование https
+  requestPolicy:
+    insecure:
+      action: Route
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: user
+spec:
+  prefix: /user/
+  service: user.default
+  cors:
+    origins: "*"
+    methods: POST, GET, PUT, OPTIONS, HEAD
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: auth
+spec:
+  prefix: /auth/
+  service: auth.default
+  bypass_auth: true # Отключаем аутентификацию на запросы к auth-service
+  cors:
+    origins: "*"
+    methods: POST, GET, PUT, OPTIONS, HEAD
