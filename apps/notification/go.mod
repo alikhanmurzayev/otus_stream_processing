@@ -1,4 +1,4 @@
-module github.com/alikhanmurzayev/otus_stream_processing/apps/order
+module github.com/alikhanmurzayev/otus_stream_processing/apps/notification
 
 go 1.17
 

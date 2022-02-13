@@ -11,7 +11,7 @@ import (
 )
 
 type Config struct {
-	Port           int    `envconfig:"PORT" default:"7776"`
+	Port           int    `envconfig:"PORT" default:"7775"`
 	DBDriver       string `envconfig:"DB_DRIVER" default:"postgres"`
 	DBHost         string `envconfig:"DB_HOST" default:"localhost"`
 	DBPort         int    `envconfig:"DB_PORT" default:"5432"`
@@ -19,7 +19,6 @@ type Config struct {
 	DBUser         string `envconfig:"DB_USER" default:"myuser"`
 	DBPassword     string `envconfig:"DB_PASSWORD" default:"mypassword"`
 	DBSSLMode      string `envconfig:"DB_SSLMODE" default:"disable"`
-	BillingService string `envconfig:"BILLING_SERVICE" default:"http://localhost:7777"`
 	RabbitLogin    string `envconfig:"RABBIT_LOGIN" default:"guest"`
 	RabbitPassword string `envconfig:"RABBIT_PASSWORD" default:"guest"`
 	RabbitHost     string `envconfig:"RABBIT_HOST" default:"localhost"`
