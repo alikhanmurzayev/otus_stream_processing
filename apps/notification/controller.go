@@ -4,37 +4,43 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
+	"strconv"
 )
 
-type orderController struct {
-	orderService *orderService
+type notificationController struct {
+	notificationService *notificationService
 }
 
-func NewOrderController(orderService *orderService) *orderController {
-	return &orderController{orderService: orderService}
+func NewNotificationController(notificationService *notificationService) *notificationController {
+	return &notificationController{notificationService: notificationService}
 }
 
-func (ctl *orderController) HealthCheck(c *fiber.Ctx) error {
+func (ctl *notificationController) HealthCheck(c *fiber.Ctx) error {
 	return WriteResponse(c, http.StatusOK, map[string]string{"status": "ok"})
 }
 
-func (ctl *orderController) Create(c *fiber.Ctx) error {
-	body := struct {
-		Price float64 `json:"price"`
-	}{}
-	err := c.BodyParser(&body)
-	if err != nil {
-		return WriteResponse(c, http.StatusBadRequest, fmt.Sprintf("could not parse body: %s", err))
-	}
+func (ctl *notificationController) Find(c *fiber.Ctx) error {
 	userID, err := GetUserID(c)
 	if err != nil {
 		return WriteResponse(c, http.StatusForbidden, err.Error())
 	}
-	order, err := ctl.orderService.Create(c.Context(), userID, body.Price)
+	page, err := strconv.Atoi(c.Query("page"))
+	if err != nil {
+		return WriteResponse(c, http.StatusBadRequest, fmt.Sprintf("could not parse page: %s", err))
+	}
+	size, err := strconv.Atoi(c.Query("size"))
+	if err != nil {
+		return WriteResponse(c, http.StatusBadRequest, fmt.Sprintf("could not parse size: %s", err))
+	}
+	resp := struct {
+		Rows  []Notification `json:"rows"`
+		Total int64          `json:"total"`
+	}{}
+	resp.Rows, resp.Total, err = ctl.notificationService.Find(c.Context(), userID, page, size)
 	if err != nil {
 		return WriteResponse(c, http.StatusBadRequest, err.Error())
 	}
-	return WriteResponse(c, http.StatusOK, order)
+	return WriteResponse(c, http.StatusOK, resp)
 }
 
 func WriteResponse(c *fiber.Ctx, status int, resp interface{}) error {

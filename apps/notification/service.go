@@ -1,47 +1,20 @@
 package main
 
-import (
-	"context"
-	"fmt"
-)
+import "context"
 
-type orderService struct {
-	orderRepository  *orderRepository
-	billingAdapter   *billingAdapter
-	messagePublisher *messagePublisher
+type notificationService struct {
+	notificationRepository *notificationRepository
 }
 
-func NewOrderService(orderRepository *orderRepository, billingAdapter *billingAdapter, messagePublisher *messagePublisher) *orderService {
-	return &orderService{
-		orderRepository:  orderRepository,
-		billingAdapter:   billingAdapter,
-		messagePublisher: messagePublisher,
-	}
+func NewNotificationService(notificationRepository *notificationRepository) *notificationService {
+	return &notificationService{notificationRepository: notificationRepository}
 }
 
-func (service *orderService) Create(ctx context.Context, userID int64, price float64) (Order, error) {
-	order := Order{
-		UserID: userID,
-		Price:  price,
-		Status: OrderStatusNew,
-	}
-	order, err := service.orderRepository.Save(ctx, order)
-	if err != nil {
-		return Order{}, fmt.Errorf("could not create order: %w", err)
-	}
-	err = service.billingAdapter.WithdrawAccount(ctx, userID, price)
-	if err != nil {
-		order.Status = OrderStatusUnpaid
-	} else {
-		order.Status = OrderStatusPaid
-	}
-	order, err = service.orderRepository.Save(ctx, order)
-	if err != nil {
-		return Order{}, fmt.Errorf("could not Save: %w", err)
-	}
-	err = service.messagePublisher.Publish(ctx, OrderEvent{OrderID: order.ID, UserID: userID, Status: order.Status})
-	if err != nil {
-		return Order{}, fmt.Errorf("could not Publish: %w", err)
-	}
-	return order, nil
+func (service *notificationService) Send(ctx context.Context, notification Notification) error {
+	_, err := service.notificationRepository.Save(ctx, notification)
+	return err
+}
+
+func (service *notificationService) Find(ctx context.Context, userID int64, page, size int) (notifications []Notification, total int64, err error) {
+	return service.notificationRepository.Find(ctx, userID, page, size)
 }

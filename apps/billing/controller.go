@@ -36,6 +36,18 @@ func (ctl *accountController) CreateAccount(c *fiber.Ctx) error {
 	return WriteResponse(c, http.StatusOK, account)
 }
 
+func (ctl *accountController) GetAccount(c *fiber.Ctx) error {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return WriteResponse(c, http.StatusForbidden, err.Error())
+	}
+	account, err := ctl.accountService.GetByUserID(c.Context(), userID)
+	if err != nil {
+		return WriteResponse(c, http.StatusBadRequest, err.Error())
+	}
+	return WriteResponse(c, http.StatusOK, account)
+}
+
 func (ctl *accountController) TopUpAccount(c *fiber.Ctx) error {
 	body := struct {
 		Amount float64 `json:"amount"`

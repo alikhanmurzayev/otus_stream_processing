@@ -7,4 +7,4 @@ psql -h localhost -p 5432 -U myuser -W mydb
 create table users (id bigserial primary key, first_name varchar, last_name varchar, login varchar, password varchar, salt varchar);
 create table accounts (id bigserial primary key, user_id int, amount numeric, constraint fk_account_user foreign key(user_id) references users);
 create table orders (id bigserial primary key, user_id int, price numeric, status varchar, constraint fk_order_user foreign key(user_id) references users);
-create table notifications (id bigserial primary key, user_id int, text varchar);
+create table notifications (id bigserial primary key, user_id int, text varchar, constraint fk_notification_user foreign key(user_id) references users);

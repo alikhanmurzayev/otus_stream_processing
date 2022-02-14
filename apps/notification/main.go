@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 )
 
@@ -9,13 +10,14 @@ func main() {
 		log.Fatalf("could not load config: %s", err)
 	}
 	log.Println("config loaded successfully")
-	orderRepo := NewOrderRepository(DBConn)
-	billingAdapter := NewBillingAdapter(config.BillingService)
-	messagePublisher, err := NewMessagePublisher(RabbitConn, config.QueueName)
+	notificationRepo := NewNotificationRepository(DBConn)
+	notificationService := NewNotificationService(notificationRepo)
+	notificationController := NewNotificationController(notificationService)
+	messageReceiver, err := NewMessageReceiver(RabbitConn, config.QueueName)
 	if err != nil {
-		log.Fatalf("could not get NewMessagePublisher: %s", err)
+		log.Fatalf("could not get NewMessageReceiver: %s", err)
 	}
-	orderService := NewOrderService(orderRepo, billingAdapter, messagePublisher)
-	orderController := NewOrderController(orderService)
-	log.Fatal(StartServer(config.Port, orderController))
+	go func() { log.Fatal(StartServer(config.Port, notificationController)) }()
+	go func() { log.Fatal(StartConsumer(context.Background(), messageReceiver, notificationService)) }()
+	select {}
 }

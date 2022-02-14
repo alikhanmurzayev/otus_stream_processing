@@ -13,6 +13,10 @@ func NewAccountService(accountRepo *accountRepository) *accountService {
 	return &accountService{accountRepo: accountRepo}
 }
 
+func (service *accountService) GetByUserID(ctx context.Context, userID int64) (Account, error) {
+	return service.accountRepo.GetByUserID(ctx, userID)
+}
+
 func (service *accountService) CreateByUserID(ctx context.Context, userID int64) (Account, error) {
 	account := Account{UserID: userID}
 	return service.accountRepo.Save(ctx, account)
