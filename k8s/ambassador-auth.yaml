@@ -4,7 +4,7 @@ metadata:
   name: auth
 spec:
   External:
-    auth_service: "auth.default"
+    auth_service: "auth.auth"
     path_prefix: "/is-token-valid"
     allowed_authorization_headers:
       - "x-user-id"

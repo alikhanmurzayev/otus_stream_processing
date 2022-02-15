@@ -16,7 +16,7 @@ metadata:
   name: user
 spec:
   prefix: /user/
-  service: user.default
+  service: user.user
   cors:
     origins: "*"
     methods: POST, GET, PUT, OPTIONS, HEAD
@@ -27,8 +27,41 @@ metadata:
   name: auth
 spec:
   prefix: /auth/
-  service: auth.default
+  service: auth.auth
   bypass_auth: true # Отключаем аутентификацию на запросы к auth-service
+  cors:
+    origins: "*"
+    methods: POST, GET, PUT, OPTIONS, HEAD
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: billing
+spec:
+  prefix: /billing/
+  service: billing.billing
+  cors:
+    origins: "*"
+    methods: POST, GET, PUT, OPTIONS, HEAD
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: order
+spec:
+  prefix: /order/
+  service: order.order
+  cors:
+    origins: "*"
+    methods: POST, GET, PUT, OPTIONS, HEAD
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: notification
+spec:
+  prefix: /notification/
+  service: notification.notification
   cors:
     origins: "*"
     methods: POST, GET, PUT, OPTIONS, HEAD

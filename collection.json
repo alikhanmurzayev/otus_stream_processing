@@ -33,13 +33,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8888/register",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/user/register",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8888",
 					"path": [
+						"user",
 						"register"
 					]
 				}
@@ -80,13 +79,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9999/login",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/auth/login",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "9999",
 					"path": [
+						"auth",
 						"login"
 					]
 				}
@@ -126,13 +124,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7777/top-up",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/billing/top-up",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7777",
 					"path": [
+						"billing",
 						"top-up"
 					]
 				}
@@ -167,13 +164,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7776/create",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/order/create",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7776",
 					"path": [
+						"order",
 						"create"
 					]
 				}
@@ -205,13 +201,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:7777/account",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/billing/account",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7777",
 					"path": [
+						"billing",
 						"account"
 					]
 				}
@@ -241,13 +236,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:7775/find?page=0&size=-1",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/notification/find?page=0&size=-1",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7775",
 					"path": [
+						"notification",
 						"find"
 					],
 					"query": [
@@ -292,13 +286,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7776/create",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/order/create",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7776",
 					"path": [
+						"order",
 						"create"
 					]
 				}
@@ -330,13 +323,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:7777/account",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/billing/account",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7777",
 					"path": [
+						"billing",
 						"account"
 					]
 				}
@@ -366,13 +358,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:7775/find?page=0&size=-1",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/notification/find?page=0&size=-1",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "7775",
 					"path": [
+						"notification",
 						"find"
 					],
 					"query": [
@@ -406,8 +397,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"var Header = require('postman-collection').Header",
-					"pm.request.headers.add(new Header(\"x-user-id: \" + pm.globals.get('x_user_id')))"
+					""
 				]
 			}
 		},
