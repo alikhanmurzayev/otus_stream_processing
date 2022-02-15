@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth
+  name: billing
 spec:
   selector:
-    app: auth
+    app: billing
   ports:
     - port: 80
       name: http
@@ -14,16 +14,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: billing
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: billing
   template:
     metadata:
       labels:
-        app: auth
+        app: billing
     spec:
       initContainers:
         - name: wait-for-postgres
@@ -44,14 +44,14 @@ spec:
             - -c
             - until pg_isready --host=$POSTGRES_HOST --port=$POSTGRES_PORT; do sleep 1; done
       containers:
-        - name: auth
-          image: murzayev/otu_stream_processing_auth:latest
+        - name: billing
+          image: murzayev/otu_stream_processing_billing:latest
           ports:
             - name: http
-              containerPort: 9999
+              containerPort: 7777
           env:
             - name: PORT
-              value: "9999"
+              value: "7777"
             - name: DB_DRIVER
               valueFrom:
                 configMapKeyRef:
@@ -89,14 +89,14 @@ spec:
                   key: DB_SSLMODE
           livenessProbe:
             httpGet:
-              port: 9999
+              port: 7777
               path: /health
             initialDelaySeconds: 3
             periodSeconds: 1
             timeoutSeconds: 2
           readinessProbe:
             httpGet:
-              port: 9999
+              port: 7777
               path: /health
             initialDelaySeconds: 3
             periodSeconds: 1

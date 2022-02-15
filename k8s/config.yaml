@@ -3,11 +3,13 @@ kind: ConfigMap
 metadata:
   name: config
 data:
-  PORT_USER: "8888"
-  PORT_AUTH: "9999"
-  DB_DRIVER: "postgres"
-  DB_HOST: postgres
+  DB_DRIVER: postgres
+  DB_HOST: postgres.postgres
   DB_PORT: "5432"
+  BILLING_SERVICE: http://billing.billing
+  RABBIT_HOST: my-rabbit-rabbitmq.rabbit.svc
+  RABBIT_PORT: "5672"
+  QUEUE_NAME: order_events
 ---
 apiVersion: v1
 kind: Secret
@@ -19,3 +21,5 @@ data:
   DB_USER: "bXl1c2Vy"
   DB_PASSWORD: "bXlwYXNzd29yZA=="
   DB_SSLMODE: "ZGlzYWJsZQ=="
+  RABBIT_USERNAME: "Z3Vlc3Q="
+  RABBIT_PASSWORD: "Z3Vlc3Q="

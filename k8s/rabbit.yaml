@@ -1,0 +1,7 @@
+auth:
+  username: guest
+  password: guest
+
+service:
+  type: NodePort
+  port: 5672
