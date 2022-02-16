@@ -3,7 +3,7 @@
 ## Communication between services could have been implemented 3 different ways
 
 1. HTTP only:
-![HTTP only](./diagrams/HTTP\ only.svg)
+![HTTP only](./diagrams/HTTP only.svg)
 
 2. HTTP for auth, user, billing, order services. Message broker for notification service;
 
