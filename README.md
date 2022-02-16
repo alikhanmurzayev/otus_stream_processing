@@ -5,11 +5,13 @@
 #### 1. HTTP only:
 ![HTTP only](./diagrams/HTTP_only.svg)
 
-#### 2. HTTP for auth, user, billing, order services. Message broker for notification service:
+#### 2. Async notification (HTTP for auth, user, billing, order services and message broker for notification service):
 ![Async notification](./diagrams/Async_notification.svg)
 
 #### 3. Using event collaboration design:
 ![Event collaboration](./diagrams/Event_collaboration.svg)
+
+## Async notification was implemented in this repo.
 
 ### Clone the repo:
 ```bash
@@ -51,7 +53,7 @@ kubectl apply -f k8s/config.yaml -f k8s/notification-app.yaml -n notification
 ### Wait for ambassador to up
 ```bash
 for (( ; ; )); do [[ $(kubectl get po -n ambassador | grep "1/1" | wc -l) == 2 ]] \
-    && echo "ambassador is up" && break || echo "ambassador is down" && sleep 1; done
+    && echo "ambassador is up" && break || echo "ambassador is down" && sleep 3; done
 ```
 
 ### Setup routes and auth rules
@@ -62,7 +64,7 @@ kubectl apply -f k8s/ambassador-routes.yaml -f k8s/ambassador-auth.yaml
 ### Wait for services to up
 ```bash
 BASE_URL=$(minikube service list|grep 'ambassador'|grep 'http'|grep -Eo 'http://[^ >]+'|head -1) \
-    && until curl --fail $BASE_URL/auth/health; do sleep 1; done \
+    && until curl --fail $BASE_URL/auth/health; do sleep 3; done \
     && until curl --fail $BASE_URL/user/health; do sleep 1; done \
     && until curl --fail $BASE_URL/billing/health; do sleep 1; done \
     && until curl --fail $BASE_URL/order/health; do sleep 1; done \
