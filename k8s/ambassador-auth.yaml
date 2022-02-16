@@ -8,7 +8,6 @@ spec:
     path_prefix: "/is-token-valid"
     allowed_authorization_headers:
       - "x-user-id"
-      - "x-auth-token"
 ---
 apiVersion: getambassador.io/v2
 kind: FilterPolicy
@@ -21,6 +20,18 @@ spec:
       filters: null
     - host: "*"
       path: "/user/register" # Разрешаем доступ к регистрации без аутентификации
+      filters: null
+    - host: "*"
+      path: "/user/health" # health check извне
+      filters: null
+    - host: "*"
+      path: "/billing/health" # health check извне
+      filters: null
+    - host: "*"
+      path: "/order/health" # health check извне
+      filters: null
+    - host: "*"
+      path: "/notification/health" # health check извне
       filters: null
     - host: "*"
       path: "*"
