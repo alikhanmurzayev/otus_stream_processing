@@ -43,6 +43,33 @@ spec:
             - sh
             - -c
             - until pg_isready --host=$POSTGRES_HOST --port=$POSTGRES_PORT; do sleep 1; done
+        - name: wait-for-rabbit
+          image: postgres:latest
+          env:
+            - name: RABBIT_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: RABBIT_USERNAME
+            - name: RABBIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: RABBIT_PASSWORD
+            - name: RABBIT_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: RABBIT_HOST
+            - name: RABBIT_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: RABBIT_PORT
+          command:
+            - sh
+            - -c
+            - until /app/app.bin; do sleep 1; done
       containers:
         - name: order
           image: murzayev/otu_stream_processing_order:latest

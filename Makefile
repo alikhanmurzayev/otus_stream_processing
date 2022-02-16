@@ -24,3 +24,7 @@ build_order:
 build_notification:
 	docker build -t murzayev/otu_stream_processing_notification:latest apps/notification/
 	docker push murzayev/otu_stream_processing_notification:latest
+
+build_rabbit_isready:
+	docker build -t murzayev/otu_stream_processing_rabbit_isready:latest apps/rabbit_isready/
+	docker push murzayev/otu_stream_processing_rabbit_isready:latest
