@@ -76,3 +76,6 @@ BASE_URL=$(minikube service list|grep 'ambassador'|grep 'http'|grep -Eo 'http://
 BASE_URL=$(minikube service list|grep 'ambassador'|grep 'http'|grep -Eo 'http://[^ >]+'|head -1) \
     newman run --verbose --global-var "baseUrl=$BASE_URL" collection.json
 ```
+
+### Test result:
+![Test result](./test_result.png)
