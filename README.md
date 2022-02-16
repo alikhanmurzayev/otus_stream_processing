@@ -40,7 +40,7 @@ kubectl apply -f k8s/config.yaml -f k8s/order-app.yaml -n order
 kubectl apply -f k8s/config.yaml -f k8s/notification-app.yaml -n notification
 ```
 
-Wait for ambassador to up
+### Wait for ambassador to up
 ```bash
 for (( ; ; )); do [[ $(kubectl get po -n ambassador | grep "1/1" | wc -l) == 2 ]] \
     && echo "ambassador is up" && break || echo "ambassador is down" && sleep 1; done
@@ -51,7 +51,7 @@ for (( ; ; )); do [[ $(kubectl get po -n ambassador | grep "1/1" | wc -l) == 2 ]
 kubectl apply -f k8s/ambassador-routes.yaml -f k8s/ambassador-auth.yaml
 ```
 
-Wait for services to up
+### Wait for services to up
 ```bash
 BASE_URL=$(minikube service list|grep 'ambassador'|grep 'http'|grep -Eo 'http://[^ >]+'|head -1) \
     && until curl --fail $BASE_URL/auth/health; do sleep 1; done \
