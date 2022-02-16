@@ -2,12 +2,14 @@
 
 ## Communication between services could have been implemented 3 different ways
 
-1. HTTP only:
+#### 1. HTTP only:
 ![HTTP only](./diagrams/HTTP_only.svg)
 
-2. HTTP for auth, user, billing, order services. Message broker for notification service;
+#### 2. HTTP for auth, user, billing, order services. Message broker for notification service:
+![Async notification](./diagrams/Async_notification.svg)
 
-3. Using event collaboration design.
+#### 3. Using event collaboration design:
+![Event collaboration](./diagrams/Event_collaboration.svg)
 
 ### Clone the repo:
 ```bash
