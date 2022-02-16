@@ -16,7 +16,7 @@ kubectl apply -f k8s/ambassador-routes.yaml -f k8s/ambassador-auth.yaml
 
 newman run  \
 --global-var "baseUrl=$(minikube service list|grep 'ambassador'|grep 'http'|grep -Eo 'http://[^ >]+'|head -1)" \
-OTUS.API_Gateway.postman_collection.json
+collection.json
 
 
 

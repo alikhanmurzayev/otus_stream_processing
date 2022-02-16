@@ -44,7 +44,7 @@ spec:
             - -c
             - until pg_isready --host=$POSTGRES_HOST --port=$POSTGRES_PORT; do sleep 1; done
         - name: wait-for-rabbit
-          image: postgres:latest
+          image: murzayev/otu_stream_processing_rabbit_isready:latest
           env:
             - name: RABBIT_LOGIN
               valueFrom:
