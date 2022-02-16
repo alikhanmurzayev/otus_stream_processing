@@ -1,11 +1,17 @@
-# HW BFF. Api Gateway
+# HW Stream processing
 
-## Auth flow
-![Auth flow](./auth.svg)
+## Communication between services could have been implemented 3 different ways
+
+1. HTTP only:
+![HTTP only](./diagrams/HTTP\ only.svg)
+
+2. HTTP for auth, user, billing, order services. Message broker for notification service;
+
+3. Using event collaboration design.
 
 ### Clone the repo:
 ```bash
-git clone https://github.com/alikhanmurzayev/otus_bff_api_gateway.git && cd otus_bff_api_gateway
+git clone https://github.com/alikhanmurzayev/otus_stream_processing.git && cd otus_stream_processing
 ```
 
 ### Start minikube
